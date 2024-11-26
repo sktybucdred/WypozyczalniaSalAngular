@@ -1,0 +1,28 @@
+<!-- src/app/components/sala-list/sala-list.component.html -->
+<h2>Lista Sal</h2>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Pojemność</th>
+    <th>Udogodnienia</th>
+    <th>Dostępność</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let sala of sale">
+    <td>{{ sala.id }}</td>
+    <td>{{ sala.nazwa }}</td>
+    <td>{{ sala.pojemnosc }}</td>
+    <td>{{ sala.udogodnienia.join(', ') }}</td>
+    <td>
+      <ul>
+        <li *ngFor="let date of sala.dostepnosc">
+          {{ date | date: 'yyyy-MM-dd' }}
+        </li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+</table>
