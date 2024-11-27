@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-datepicker-field',
@@ -19,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
   `,
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatDatepickerModule,
