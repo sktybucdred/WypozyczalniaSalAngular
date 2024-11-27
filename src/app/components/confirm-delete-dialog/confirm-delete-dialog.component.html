@@ -1,0 +1,9 @@
+<!-- src/app/components/confirm-delete-dialog/confirm-delete-dialog.component.html -->
+<h2 mat-dialog-title>Potwierdzenie Usunięcia</h2>
+<mat-dialog-content>
+  <p>Czy na pewno chcesz usunąć salę <strong>{{ data.sala.nazwa }}</strong>?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Anuluj</button>
+  <button mat-button color="warn" (click)="onYesClick()">Usuń</button>
+</mat-dialog-actions>

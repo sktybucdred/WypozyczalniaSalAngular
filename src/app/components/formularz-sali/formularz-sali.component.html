@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <!-- Nazwa Sali -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nazwa sali</mat-label>
+      <input matInput type="text" formControlName="nazwa" />
+      <mat-error *ngIf="form.get('nazwa')?.hasError('required')">
+        Nazwa sali jest wymagana.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Pojemność -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Pojemność</mat-label>
+      <input matInput type="number" formControlName="pojemnosc" />
+      <mat-error *ngIf="form.get('pojemnosc')?.hasError('required')">
+        Pojemność jest wymagana.
+      </mat-error>
+      <mat-error *ngIf="form.get('pojemnosc')?.hasError('min')">
+        Pojemność musi być przynajmniej 1.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Udogodnienia -->
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Udogodnienia (oddzielone przecinkami)</mat-label>
+      <input matInput type="text" formControlName="udogodnienia" />
+    </mat-form-field>
+
+    <!-- Dostępność -->
+    <div formArrayName="dostepnosc" style="margin-top: 16px;">
+      <label>Dostępność (wybierz daty):</label>
+      <div
+        *ngFor="let dateCtrl of dostepnosc.controls; let i = index"
+        style="display: flex; align-items: center; margin-bottom: 8px;"
+      >
+        <app-datepicker-field
+          [control]="dateCtrl"
+          [label]="'Data ' + (i + 1)"
+        ></app-datepicker-field>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="removeDate(i)"
+          [disabled]="dostepnosc.length === 1"
+        >
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+      <button mat-button type="button" (click)="addDate()">
+        <mat-icon>add_circle</mat-icon> Dodaj datę
+      </button>
+    </div>
+
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit" style="margin-top: 16px;">
+      Zatwierdź
+    </button>
+  </div>
+</form>
