@@ -1,11 +1,11 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppRoutes } from './app.routes';
 import { CommonModule } from '@angular/common';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Import provideAnimations
 import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
-import { MatToolbarModule } from '@angular/material/toolbar'; // Example: Import MatToolbarModule
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {AuthService} from './services/auth.service'; // Example: Import MatToolbarModule
 
 @Component({
   selector: 'app-root',
@@ -23,5 +23,11 @@ import { MatToolbarModule } from '@angular/material/toolbar'; // Example: Import
   ],*/
 })
 export class AppComponent {
+  constructor(public authService: AuthService) {
+  }
   title = 'SalaWynajmu';
+
+  logout(): void {
+    this.authService.logout();
+  }
 }

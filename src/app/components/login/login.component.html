@@ -1,0 +1,14 @@
+<form (ngSubmit)="onLogin()">
+  <label>
+    Nazwa użytkownika:
+    <input [(ngModel)]="username" name="username" required />
+  </label>
+  <br />
+  <label>
+    Hasło:
+    <input [(ngModel)]="password" name="password" type="password" required />
+  </label>
+  <br />
+  <button type="submit">Zaloguj</button>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</form>

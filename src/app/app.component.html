@@ -1,7 +1,12 @@
 <nav>
     <ul>
         <li><a routerLink="/sale">Lista Sal</a></li>
+        <li><a *ngIf="!authService.isAdminLoggedIn()" routerLink="/login">Zaloguj</a></li>
+        <li><a *ngIf="authService.isAdminLoggedIn()" href="#" (click)="logout()">Wyloguj</a></li>
     </ul>
+  <ul>
+
+  </ul>
 </nav>
 <hr />
 <router-outlet></router-outlet>

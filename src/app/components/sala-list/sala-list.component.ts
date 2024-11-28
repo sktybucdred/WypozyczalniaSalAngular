@@ -2,8 +2,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Sala } from '../../models/sala.model';
 import { SalaService } from '../../services/sala.service';
+import { AuthService } from '../../services/auth.service';
+
 import { CommonModule } from '@angular/common';
-import {RouterLink} from '@angular/router';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {ConfirmDeleteDialogComponent} from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import {AddSalaDialogComponent} from '../add-sala-dialog/add-sala-dialog.component';
@@ -18,13 +19,17 @@ import {Subscription} from 'rxjs';
   templateUrl: './sala-list.component.html',
   styleUrls: ['./sala-list.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterLink, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
 })
 export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
   private saleSubscription!: Subscription;
 
-  constructor(private salaService: SalaService, private dialog: MatDialog) {}
+  constructor(
+    private salaService: SalaService,
+    private dialog: MatDialog,
+    protected authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
@@ -70,6 +75,13 @@ export class SalaListComponent implements OnInit, OnDestroy {
           this.salaService.deleteSala(sala.id);
         }
       });
+  }
+  get columnsToDisplay(): string[] {
+    if (this.authService.isAdminLoggedIn()) {
+      return ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
+    } else {
+      return ['id', 'nazwa', 'pojemnosc', 'udogodnienia'];
+    }
   }
 
 }
