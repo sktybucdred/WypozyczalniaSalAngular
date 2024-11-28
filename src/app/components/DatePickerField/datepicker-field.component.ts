@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import {CommonModule} from '@angular/common';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @Component({
   selector: 'app-datepicker-field',
@@ -25,6 +26,7 @@ import {CommonModule} from '@angular/common';
     MatFormFieldModule,
     MatDatepickerModule,
     MatInputModule,
+    MatNativeDateModule
   ],
 })
 export class DatepickerFieldComponent {

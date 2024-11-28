@@ -7,7 +7,9 @@ import {AddSalaDialogComponent} from './components/add-sala-dialog/add-sala-dial
 export const AppRoutes: Routes = [
   { path: '', redirectTo: '/sale', pathMatch: 'full' },
   { path: 'sale', component: SalaListComponent },
+/*
   { path: 'dodaj-sala', component: AddSalaDialogComponent },
   { path: 'usun-sala/:id', component: ConfirmDeleteDialogComponent },
+*/
 
 ];

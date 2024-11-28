@@ -4,6 +4,5 @@ export class Sala {
     public nazwa: string,
     public pojemnosc: number,
     public udogodnienia: string[],
-    public dostepnosc: Date[]
   ) {}
 }

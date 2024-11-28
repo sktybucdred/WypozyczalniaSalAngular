@@ -15,11 +15,12 @@ import { MatToolbarModule } from '@angular/material/toolbar'; // Example: Import
   imports: [
     RouterModule,
     CommonModule,
+    MatIconModule,
     MatToolbarModule,
   ],
-  providers: [
+/*  providers: [
     provideAnimations(),
-  ],
+  ],*/
 })
 export class AppComponent {
   title = 'SalaWynajmu';

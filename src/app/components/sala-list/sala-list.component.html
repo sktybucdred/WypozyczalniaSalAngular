@@ -29,28 +29,21 @@
     <td mat-cell *matCellDef="let sala"> {{ sala.udogodnienia.join(', ') }} </td>
   </ng-container>
 
-  <!-- Dostępność Column -->
-  <ng-container matColumnDef="dostepnosc">
-    <th mat-header-cell *matHeaderCellDef> Dostępność </th>
-    <td mat-cell *matCellDef="let sala">
-      <ul>
-        <li *ngFor="let date of sala.dostepnosc">
-          {{ date | date: 'yyyy-MM-dd' }}
-        </li>
-      </ul>
-    </td>
-  </ng-container>
-
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Akcje </th>
     <td mat-cell *matCellDef="let sala">
+      <button mat-icon-button color="primary" (click)="openEditDialog(sala)">
+        <mat-icon>edit</mat-icon>
+      </button>
       <button mat-icon-button color="warn" (click)="openDeleteDialog(sala)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'dostepnosc', 'actions']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'dostepnosc', 'actions'];"></tr>
+  <!-- Update the column definitions -->
+  <tr mat-header-row *matHeaderRowDef="['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];"></tr>
+
 </table>

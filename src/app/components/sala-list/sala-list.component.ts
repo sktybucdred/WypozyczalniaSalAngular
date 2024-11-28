@@ -1,5 +1,5 @@
 // src/app/components/sala-list/sala-list.component.ts
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Sala } from '../../models/sala.model';
 import { SalaService } from '../../services/sala.service';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import {AddSalaDialogComponent} from '../add-sala-dialog/add-sala-dialog.compone
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -19,17 +20,45 @@ import {MatTableModule} from '@angular/material/table';
   standalone: true,
   imports: [CommonModule, RouterLink, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
 })
-export class SalaListComponent implements OnInit {
+export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
+  private saleSubscription!: Subscription;
 
   constructor(private salaService: SalaService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.salaService.sale$.subscribe((sale) => {
+    this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
       this.sale = sale;
     });
   }
 
+  ngOnDestroy(): void {
+    this.saleSubscription.unsubscribe();
+  }
+  openEditDialog(sala: Sala): void {
+    const dialogRef = this.dialog.open(AddSalaDialogComponent, {
+      width: '600px',
+      data: { sala },
+    });
+
+    dialogRef.afterClosed().subscribe((result: Sala | undefined) => {
+      if (result) {
+        this.salaService.updateSala(result);
+      }
+    });
+  }
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(AddSalaDialogComponent, {
+      width: '600px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result : Sala | undefined) => {
+      if(result){
+        this.salaService.addSala(result);
+      }
+    });
+  }
   openDeleteDialog(sala: Sala): void {
       const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
         width: '400px',
@@ -43,15 +72,4 @@ export class SalaListComponent implements OnInit {
       });
   }
 
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(AddSalaDialogComponent, {
-      width: '600px',
-    });
-
-    dialogRef.afterClosed().subscribe((result : Sala | undefined) => {
-      if(result){
-        this.salaService.addSala(result);
-      }
-    });
-  }
 }
