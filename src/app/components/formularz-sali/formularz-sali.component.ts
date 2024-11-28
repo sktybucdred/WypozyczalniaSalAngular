@@ -29,9 +29,9 @@ export class FormularzSaliComponent {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nazwa: [this.sala?.nazwa || '', Validators.required],
+      nazwa: [this.sala?.nazwa || '', [Validators.required, Validators.minLength(3)]],
       pojemnosc: [this.sala?.pojemnosc || null, [Validators.required, Validators.min(1)]],
-      udogodnienia: [this.sala?.udogodnienia.join(', ') || ''],
+      udogodnienia: [this.sala?.udogodnienia.join(', ') || '', Validators.pattern(/^[a-zA-Z, ]*$/)],
     });
   }
 

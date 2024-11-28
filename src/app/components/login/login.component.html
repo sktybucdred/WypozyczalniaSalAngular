@@ -1,14 +1,16 @@
-<form (ngSubmit)="onLogin()">
-  <label>
-    Nazwa użytkownika:
-    <input [(ngModel)]="username" name="username" required />
-  </label>
-  <br />
-  <label>
-    Hasło:
-    <input [(ngModel)]="password" name="password" type="password" required />
-  </label>
-  <br />
-  <button type="submit">Zaloguj</button>
-  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+<form [formGroup]="form" (ngSubmit)="onLogin()">
+  <div>
+    <label for="username">Username</label>
+    <input id="username" formControlName="username" />
+    <div *ngIf="form.get('username')?.hasError('required')">Username is required.</div>
+    <div *ngIf="form.get('username')?.hasError('minLength')">Username must be at least 3 characters long.</div>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" />
+    <div *ngIf="form.get('password')?.hasError('required')">Password is required.</div>
+    <div *ngIf="form.get('password')?.hasError('pattern')">Password must contain at least 8 characters, including letters and numbers.</div>
+  </div>
+  <div *ngIf="form.hasError('invalidLogin')">Invalid username or password.</div>
+  <button type="submit">Login</button>
 </form>

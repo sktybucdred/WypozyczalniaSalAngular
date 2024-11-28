@@ -6,6 +6,9 @@
     <mat-error *ngIf="form.get('nazwa')?.hasError('required')">
       Nazwa sali jest wymagana.
     </mat-error>
+    <mat-error *ngIf="form.get('nazwa')?.hasError('minLength')">
+      Nazwa sali musi mieć przynajmniej 3 znaki.
+    </mat-error>
   </mat-form-field>
 
   <!-- Pojemność -->
@@ -22,12 +25,13 @@
 
   <!-- Udogodnienia -->
   <mat-form-field appearance="fill" style="width: 100%;">
-    <mat-label>Udogodnienia (oddzielone przecinkami)</mat-label>
+    <mat-label>Udogodnienia</mat-label>
     <input matInput type="text" formControlName="udogodnienia" />
+    <mat-error *ngIf="form.get('udogodnienia')?.hasError('pattern')">
+      Udogodnienia mogą zawierać tylko litery i przecinki.
+    </mat-error>
   </mat-form-field>
 
   <!-- Submit Button -->
-  <button mat-raised-button color="primary" type="submit" style="margin-top: 16px;">
-    Zatwierdź
-  </button>
+  <button type="submit">Submit</button>
 </form>
