@@ -22,7 +22,6 @@ import { Sala } from '../../models/sala.model';
 export class AddSalaDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddSalaDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { sala?: Sala }
   ) {}
 
   onCancel(): void {
