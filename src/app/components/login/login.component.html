@@ -1,16 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="onLogin()">
   <div>
     <label for="username">Username</label>
-    <input id="username" formControlName="username" />
-    <div *ngIf="form.get('username')?.hasError('required')">Username is required.</div>
-    <div *ngIf="form.get('username')?.hasError('minLength')">Username must be at least 3 characters long.</div>
+    <input id="username" formControlName="username" [ngClass]="{'error': form.get('username')?.invalid && form.get('username')?.touched}" />
+    <div *ngIf="form.get('username')?.hasError('required')" class="error-message">Username is required.</div>
+    <div *ngIf="form.get('username')?.hasError('minLength')" class="error-message">Username must be at least 3 characters long.</div>
   </div>
   <div>
     <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" />
-    <div *ngIf="form.get('password')?.hasError('required')">Password is required.</div>
-    <div *ngIf="form.get('password')?.hasError('pattern')">Password must contain at least 8 characters, including letters and numbers.</div>
+    <input id="password" type="password" formControlName="password" [ngClass]="{'error': form.get('password')?.invalid && form.get('password')?.touched}" />
+    <div *ngIf="form.get('password')?.hasError('required')" class="error-message">Password is required.</div>
+    <div *ngIf="form.get('password')?.hasError('pattern')" class="error-message">Password must contain at least 8 characters, including letters and numbers.</div>
   </div>
-  <div *ngIf="form.hasError('invalidLogin')">Invalid username or password.</div>
+  <div *ngIf="form.hasError('invalidLogin')" class="error-message">Invalid username or password.</div>
   <button type="submit">Login</button>
 </form>
