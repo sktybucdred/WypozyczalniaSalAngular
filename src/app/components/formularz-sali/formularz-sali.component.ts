@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./formularz-sali.component.css'],
 })
 export class FormularzSaliComponent {
-  @Input() sala: Sala | undefined = undefined;
+  @Input() sala?: Sala;
   @Output() submitSala: EventEmitter<Sala> = new EventEmitter<Sala>();
 
   form!: FormGroup;

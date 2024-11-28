@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {Subscription} from 'rxjs';
+import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.component';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class SalaListComponent implements OnInit, OnDestroy {
     this.saleSubscription.unsubscribe();
   }
   openEditDialog(sala: Sala): void {
-    const dialogRef = this.dialog.open(AddSalaDialogComponent, {
+    const dialogRef = this.dialog.open(EditSalaDialogComponent, {
       width: '600px',
       data: { sala },
     });
@@ -55,7 +56,6 @@ export class SalaListComponent implements OnInit, OnDestroy {
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(AddSalaDialogComponent, {
       width: '600px',
-      data: {},
     });
 
     dialogRef.afterClosed().subscribe((result : Sala | undefined) => {

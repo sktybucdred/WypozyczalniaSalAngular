@@ -1,1 +1,7 @@
-<p>edit-sala-dialog works!</p>
+<h2 mat-dialog-title>{{'Edytuj Salę'}}</h2>
+<mat-dialog-content>
+  <app-formularz-sali [sala]="data.sala" (submitSala)="onSalaSubmit($event)"></app-formularz-sali>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Anuluj</button>
+</mat-dialog-actions>
