@@ -7,17 +7,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SalaService {
-  // Initialize with an empty array or pre-populated data
+  private readonly STORAGE_KEY = 'salaData';
   private saleSubject: BehaviorSubject<Sala[]> = new BehaviorSubject<Sala[]>([]);
   public sale$: Observable<Sala[]> = this.saleSubject.asObservable();
 
   constructor() {
-    // Optionally, initialize with some data
-    const initialSale: Sala[] = [
-      new Sala(1, 'Sala Konferencyjna', 20, ['Projektor', 'WiFi']),
-      // Add more initial Sala instances if needed
-    ];
-    this.saleSubject.next(initialSale);
+    const savedSale = this.getSaleFromStorage();
+    if (savedSale.length) {
+      this.saleSubject.next(savedSale);
+    } else {
+      const initialSale: Sala[] = [
+        new Sala(1, 'Sala Konferencyjna', 20, ['Projektor', 'WiFi']),
+        // Add more initial Sala instances if needed
+      ];
+      this.saleSubject.next(initialSale);
+      this.saveSaleToStorage(initialSale);
+    }
   }
 
   // Retrieve current list of Sala
@@ -34,7 +39,9 @@ export class SalaService {
       sala.pojemnosc,
       sala.udogodnienia
     );
-    this.saleSubject.next([...currentSale, newSala]);
+    const updatedSale = [...currentSale, newSala];
+    this.saleSubject.next(updatedSale);
+    this.saveSaleToStorage(updatedSale);
   }
 
   updateSala(updatedSala: Sala): void {
@@ -43,6 +50,7 @@ export class SalaService {
       sala.id === updatedSala.id ? updatedSala : sala
     );
     this.saleSubject.next(updatedSale);
+    this.saveSaleToStorage(updatedSale);
   }
 
 
@@ -51,6 +59,15 @@ export class SalaService {
     const currentSale = this.getSale();
     const updatedSale = currentSale.filter(sala => sala.id !== id);
     this.saleSubject.next(updatedSale);
+    this.saveSaleToStorage(updatedSale);
+
+  }
+  private saveSaleToStorage(sale: Sala[]): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(sale));
   }
 
+  private getSaleFromStorage(): Sala[] {
+    const saleJson = localStorage.getItem(this.STORAGE_KEY);
+    return saleJson ? JSON.parse(saleJson) : [];
+  }
 }
