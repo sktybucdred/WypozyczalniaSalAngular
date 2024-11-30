@@ -37,18 +37,20 @@
   </ng-container>
 
   <!-- Actions Column -->
-  <ng-container matColumnDef="actions" *ngIf="authService.isAdminLoggedIn()">
+<ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Akcje </th>
     <td mat-cell *matCellDef="let sala">
-      <button mat-icon-button color="primary" (click)="openEditDialog(sala)">
+      <button mat-icon-button color="primary" (click)="openEditDialog(sala)" *ngIf="authService.isAdminLoggedIn()">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="openDeleteDialog(sala)">
+      <button mat-icon-button color="warn" (click)="openDeleteDialog(sala)" *ngIf="authService.isAdminLoggedIn()">
         <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="openDetailsDialog(sala)">
+        <mat-icon>more actions</mat-icon>
       </button>
     </td>
   </ng-container>
-
 
   <!-- Update the column definitions -->
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

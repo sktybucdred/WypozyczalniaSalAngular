@@ -1,5 +1,5 @@
 // src/app/components/sala-list/sala-list.component.ts
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { Sala } from '../../models/sala.model';
 import { SalaService } from '../../services/sala.service';
 import { AuthService } from '../../services/auth.service';
@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.component';
+import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
 
 
 @Component({
@@ -25,12 +26,10 @@ import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.comp
 export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
   private saleSubscription!: Subscription;
-
-  constructor(
-    private salaService: SalaService,
-    private dialog: MatDialog,
-    protected authService: AuthService
-  ) {}
+  columnsToDisplay: string[] = ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
+    private salaService = inject(SalaService);
+    private dialog: MatDialog = inject(MatDialog);
+    protected authService = inject(AuthService);
 
   ngOnInit(): void {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
@@ -64,6 +63,12 @@ export class SalaListComponent implements OnInit, OnDestroy {
       }
     });
   }
+  openDetailsDialog(sala: Sala): void {
+    const dialogRef = this.dialog.open(DetailsSalaDialogComponent, {
+      width: '600px',
+      data: { sala },
+    });
+  }
   openDeleteDialog(sala: Sala): void {
       const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
         width: '400px',
@@ -76,12 +81,10 @@ export class SalaListComponent implements OnInit, OnDestroy {
         }
       });
   }
-  get columnsToDisplay(): string[] {
-    if (this.authService.isAdminLoggedIn()) {
-      return ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
-    } else {
-      return ['id', 'nazwa', 'pojemnosc', 'udogodnienia'];
-    }
-  }
+  // get columnsToDisplay(): string[] {
+  //   if (this.authService.isAdminLoggedIn()) {
+  //     return ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
+  //   }
+  // }
 
 }

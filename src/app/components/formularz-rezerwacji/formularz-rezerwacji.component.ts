@@ -10,9 +10,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
-// For date-time picker
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-
 @Component({
   selector: 'app-formularz-rezerwacji',
   standalone: true,
@@ -25,8 +22,6 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-mat
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
   ],
   templateUrl: './formularz-rezerwacji.component.html',
   styleUrls: ['./formularz-rezerwacji.component.css'],
