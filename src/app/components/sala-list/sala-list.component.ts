@@ -26,7 +26,7 @@ import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-di
 export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
   private saleSubscription!: Subscription;
-  columnsToDisplay: string[] = ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
+  columnsToDisplay: string[] = ['nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
     private salaService = inject(SalaService);
     private dialog: MatDialog = inject(MatDialog);
     protected authService = inject(AuthService);
@@ -35,6 +35,11 @@ export class SalaListComponent implements OnInit, OnDestroy {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
       this.sale = sale;
     });
+
+    if(this.authService.isAdminLoggedIn())
+    {
+      this.columnsToDisplay.unshift('id');
+    }
   }
 
   ngOnDestroy(): void {

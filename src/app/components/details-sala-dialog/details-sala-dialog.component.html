@@ -2,7 +2,10 @@
 
 <h2 mat-dialog-title>{{sala.nazwa}}</h2>
 <mat-dialog-content>
-  <p><strong>ID:</strong> {{ sala.id }}</p>
+  @if(authService.isAdminLoggedIn())
+  {
+    <p><strong>ID:</strong> {{ sala.id }}</p>
+  }
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
   <p><strong>Udogodnienia:</strong> {{ sala.udogodnienia.join(', ') }}</p>
