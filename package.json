@@ -23,6 +23,7 @@
     "@angular/platform-server": "19.0.1",
     "@angular/router": "19.0.1",
     "@danielmoncada/angular-datetime-picker": "^19.0.0",
+    "@emailjs/browser": "^4.4.1",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
