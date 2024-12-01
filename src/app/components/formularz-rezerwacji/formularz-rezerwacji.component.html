@@ -3,30 +3,38 @@
   <mat-form-field appearance="fill" style="width: 100%;">
     <mat-label>Imię</mat-label>
     <input matInput type="text" formControlName="imie" />
-    <mat-error *ngIf="form.get('imie')?.hasError('required')">
-      Imię jest wymagane.
-    </mat-error>
+    @if(form.get('imie')?.hasError('required')) {
+      <mat-error>
+        Imię jest wymagane.
+      </mat-error>
+    }
   </mat-form-field>
 
   <!-- Nazwisko -->
   <mat-form-field appearance="fill" style="width: 100%;">
     <mat-label>Nazwisko</mat-label>
     <input matInput type="text" formControlName="nazwisko" />
-    <mat-error *ngIf="form.get('nazwisko')?.hasError('required')">
-      Nazwisko jest wymagane.
-    </mat-error>
+    @if(form.get('nazwisko')?.hasError('required')) {
+      <mat-error>
+        Nazwisko jest wymagane.
+      </mat-error>
+    }
   </mat-form-field>
 
   <!-- Email -->
   <mat-form-field appearance="fill" style="width: 100%;">
     <mat-label>Email</mat-label>
     <input matInput type="email" formControlName="email" />
-    <mat-error *ngIf="form.get('email')?.hasError('required')">
-      Email jest wymagany.
-    </mat-error>
-    <mat-error *ngIf="form.get('email')?.hasError('email')">
-      Wprowadź poprawny adres email.
-    </mat-error>
+    @if(form.get('email')?.hasError('required')) {
+      <mat-error>
+        Email jest wymagany.
+      </mat-error>
+    }
+    @if(form.get('email')?.hasError('email')) {
+      <mat-error>
+        Wprowadź poprawny adres email.
+      </mat-error>
+    }
   </mat-form-field>
 
   <!-- Start Date-Time -->
@@ -34,9 +42,11 @@
     <mat-label>Data i godzina rozpoczęcia</mat-label>
     <input matInput [ngxMatDatetimePicker]="startPicker" formControlName="startDateTime" />
     <ngx-mat-datetime-picker #startPicker></ngx-mat-datetime-picker>
-    <mat-error *ngIf="form.get('startDateTime')?.hasError('required')">
-      Data i godzina rozpoczęcia są wymagane.
-    </mat-error>
+    @if(form.get('startDateTime')?.hasError('required')) {
+      <mat-error>
+        Data i godzina rozpoczęcia są wymagane.
+      </mat-error>
+    }
   </mat-form-field>
 
   <!-- End Date-Time -->
@@ -44,15 +54,19 @@
     <mat-label>Data i godzina zakończenia</mat-label>
     <input matInput [ngxMatDatetimePicker]="endPicker" formControlName="endDateTime" />
     <ngx-mat-datetime-picker #endPicker></ngx-mat-datetime-picker>
-    <mat-error *ngIf="form.get('endDateTime')?.hasError('required')">
-      Data i godzina zakończenia są wymagane.
-    </mat-error>
+    @if(form.get('endDateTime')?.hasError('required')) {
+      <mat-error>
+        Data i godzina zakończenia są wymagane.
+      </mat-error>
+    }
   </mat-form-field>
 
   <!-- Validation Error -->
-  <div *ngIf="form.errors?.endBeforeStart" style="color: red;">
-    Data zakończenia musi być po dacie rozpoczęcia.
-  </div>
+  @if(form.errors?.endBeforeStart) {
+    <div style="color: red;">
+      Data zakończenia musi być po dacie rozpoczęcia.
+    </div>
+  }
 
   <!-- Submit Button -->
   <button mat-raised-button color="primary" type="submit" style="margin-top: 16px;">
