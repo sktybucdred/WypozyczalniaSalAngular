@@ -17,7 +17,6 @@ export class SalaService {
       this.saleSubject.next(savedSale);
     } else {
       const initialSale: Sala[] = [
-        new Sala(1, 'Sala Konferencyjna', 20, ['Projektor', 'WiFi']),
         // Add more initial Sala instances if needed
       ];
       this.saleSubject.next(initialSale);
@@ -69,5 +68,9 @@ export class SalaService {
   private getSaleFromStorage(): Sala[] {
     const saleJson = localStorage.getItem(this.STORAGE_KEY);
     return saleJson ? JSON.parse(saleJson) : [];
+  }
+
+  getUdogodnienia() {
+
   }
 }

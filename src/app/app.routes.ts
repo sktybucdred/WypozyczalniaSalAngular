@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SalaListComponent } from './components/sala-list/sala-list.component';
+import { SalaListComponent } from './components/sala/sala-list/sala-list.component';
 import {LoginComponent} from './components/login/login.component';
 
 

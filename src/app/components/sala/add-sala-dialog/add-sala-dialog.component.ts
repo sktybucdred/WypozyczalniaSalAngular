@@ -4,7 +4,7 @@ import { FormularzSaliComponent } from '../formularz-sali/formularz-sali.compone
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Sala } from '../../models/sala.model';
+import { Sala } from '../../../models/sala.model';
 
 @Component({
   selector: 'app-add-sala-dialog',

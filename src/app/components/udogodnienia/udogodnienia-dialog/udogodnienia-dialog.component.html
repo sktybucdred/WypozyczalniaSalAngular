@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Udogodnienia</h2>
+
+<mat-dialog-content>
+  <mat-list>
+    <mat-list-item *ngFor="let udogodnienie of udogodnienia; trackBy: trackById">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <!-- Wyświetlanie ID i szczegółów -->
+        <div>
+          <strong *ngIf="isAdmin()">ID: {{ udogodnienie.id }} </strong>
+          <span>{{ udogodnienie.nazwa }} - {{ udogodnienie.opis }}</span>
+        </div>
+
+        <!-- Przyciski akcji dla administratora -->
+        <div *ngIf="isAdmin()" style="display: flex; gap: 8px;">
+          <button mat-icon-button color="primary" (click)="openEditDialog(udogodnienie)" aria-label="Edytuj">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteUdogodnienie(udogodnienie.id)" aria-label="Usuń">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <ng-container *ngIf="isAdmin()">
+    <button mat-raised-button color="primary" (click)="openCreateDialog()">Dodaj Udogodnienie</button>
+  </ng-container>
+  <button mat-button (click)="closeDialog()">Zamknij</button>
+</mat-dialog-actions>

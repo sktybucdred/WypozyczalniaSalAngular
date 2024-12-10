@@ -6,7 +6,7 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from '@angular/material/dialog';
-import {Sala} from '../../models/sala.model';
+import {Sala} from '../../../models/sala.model';
 import {FormularzSaliComponent} from '../formularz-sali/formularz-sali.component';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';

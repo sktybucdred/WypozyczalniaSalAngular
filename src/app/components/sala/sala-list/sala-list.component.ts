@@ -1,12 +1,12 @@
 // src/app/components/sala-list/sala-list.component.ts
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import { Sala } from '../../models/sala.model';
-import { SalaService } from '../../services/sala.service';
-import { AuthService } from '../../services/auth.service';
+import { Sala } from '../../../models/sala.model';
+import { SalaService } from '../../../services/sala.service';
+import { AuthService } from '../../../services/auth.service';
 
 import { CommonModule } from '@angular/common';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {ConfirmDeleteDialogComponent} from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import {ConfirmDeleteDialogComponent} from '../../confirm-delete-dialog/confirm-delete-dialog.component';
 import {AddSalaDialogComponent} from '../add-sala-dialog/add-sala-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -14,6 +14,7 @@ import {MatTableModule} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.component';
 import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
+import {UdogodnieniaDialogComponent} from '../../udogodnienia/udogodnienia-dialog/udogodnienia-dialog.component';
 
 
 @Component({
@@ -27,17 +28,16 @@ export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
   private saleSubscription!: Subscription;
   columnsToDisplay: string[] = ['nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
-    private salaService = inject(SalaService);
-    private dialog: MatDialog = inject(MatDialog);
-    protected authService = inject(AuthService);
+  private salaService = inject(SalaService);
+  private dialog: MatDialog = inject(MatDialog);
+  protected authService = inject(AuthService);
 
   ngOnInit(): void {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
       this.sale = sale;
     });
 
-    if(this.authService.isAdminLoggedIn())
-    {
+    if (this.authService.isAdminLoggedIn()) {
       this.columnsToDisplay.unshift('id');
     }
   }
@@ -45,10 +45,11 @@ export class SalaListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.saleSubscription.unsubscribe();
   }
+
   openEditDialog(sala: Sala): void {
     const dialogRef = this.dialog.open(EditSalaDialogComponent, {
       width: '600px',
-      data: { sala },
+      data: {sala},
     });
 
     dialogRef.afterClosed().subscribe((result: Sala | undefined) => {
@@ -57,39 +58,43 @@ export class SalaListComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(AddSalaDialogComponent, {
       width: '600px',
     });
 
-    dialogRef.afterClosed().subscribe((result : Sala | undefined) => {
-      if(result){
+    dialogRef.afterClosed().subscribe((result: Sala | undefined) => {
+      if (result) {
         this.salaService.addSala(result);
       }
     });
   }
+
   openDetailsDialog(sala: Sala): void {
     const dialogRef = this.dialog.open(DetailsSalaDialogComponent, {
       width: '600px',
-      data: { sala },
+      data: {sala},
     });
   }
+
   openDeleteDialog(sala: Sala): void {
-      const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-        width: '400px',
-        data: {sala}
-      });
+    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
+      width: '400px',
+      data: {sala}
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if(result){
-          this.salaService.deleteSala(sala.id);
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.salaService.deleteSala(sala.id);
+      }
+    });
   }
-  // get columnsToDisplay(): string[] {
-  //   if (this.authService.isAdminLoggedIn()) {
-  //     return ['id', 'nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
-  //   }
-  // }
 
+  openUdogodnieniaDialog(): void {
+    const dialogRef = this.dialog.open(UdogodnieniaDialogComponent, {
+      width: '600',
+      data: {udogodnienia: this.salaService.getUdogodnienia()}
+    });
+  }
 }
