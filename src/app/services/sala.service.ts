@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Sala } from '../models/sala.model';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {UdogodnieniaService} from './udogodnienia.service';
+import {Udogodnienie} from '../models/udogodnienie.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,19 +13,29 @@ export class SalaService {
   private saleSubject: BehaviorSubject<Sala[]> = new BehaviorSubject<Sala[]>([]);
   public sale$: Observable<Sala[]> = this.saleSubject.asObservable();
 
-  constructor() {
+  constructor(private udogodnieniaService: UdogodnieniaService) {
     const savedSale = this.getSaleFromStorage();
-    if (savedSale.length) {
-      this.saleSubject.next(savedSale);
-    } else {
-      const initialSale: Sala[] = [
-        // Add more initial Sala instances if needed
-      ];
-      this.saleSubject.next(initialSale);
-      this.saveSaleToStorage(initialSale);
-    }
-  }
+    this.saleSubject.next(savedSale);
 
+    // Subskrybuj zmiany w udogodnieniach
+    this.udogodnieniaService.udogodnienia$.subscribe((udogodnienia) => {
+      this.syncUdogodnienia(udogodnienia);
+    });
+  }
+  private syncUdogodnienia(udogodnienia: Udogodnienie[]): void {
+    const currentSale = this.getSale();
+    const updatedSale = currentSale.map((sala) => {
+      const updatedUdogodnienia = sala.udogodnienia.filter((u) =>
+        udogodnienia.some((updatedU) => updatedU.id === u.id)
+      ).map((u) => {
+        const updated = udogodnienia.find((updatedU) => updatedU.id === u.id);
+        return updated || u;
+      });
+      return { ...sala, udogodnienia: updatedUdogodnienia };
+    });
+    this.saleSubject.next(updatedSale);
+    this.saveSaleToStorage(updatedSale);
+  }
   // Retrieve current list of Sala
   getSale(): Sala[] {
     return this.saleSubject.getValue();
@@ -70,7 +82,4 @@ export class SalaService {
     return saleJson ? JSON.parse(saleJson) : [];
   }
 
-  getUdogodnienia() {
-
-  }
 }

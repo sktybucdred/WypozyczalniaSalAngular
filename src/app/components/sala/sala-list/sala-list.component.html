@@ -41,8 +41,11 @@
   <!-- Udogodnienia Column -->
   <ng-container matColumnDef="udogodnienia">
     <th mat-header-cell *matHeaderCellDef> Udogodnienia </th>
-    <td mat-cell *matCellDef="let sala"> {{ sala.udogodnienia.join(', ') }} </td>
+    <td mat-cell *matCellDef="let sala">
+      {{ getUdogodnieniaNames(sala.udogodnienia) }}
+    </td>
   </ng-container>
+
 
   <!-- Actions Column -->
 <ng-container matColumnDef="actions">

@@ -1,7 +1,10 @@
 <!-- src/app/components/add-sala-dialog/add-sala-dialog.component.html -->
-<h2 mat-dialog-title>{{'Dodaj Nową Salę' }}</h2>
+<h2 mat-dialog-title>{{ 'Dodaj Nową Salę' }}</h2>
 <mat-dialog-content>
-  <app-formularz-sali (submitSala)="onSalaSubmit($event)"></app-formularz-sali>
+  <app-formularz-sali
+    [udogodnienia]="udogodnienia"
+    (submitSala)="onSalaSubmit($event)">
+  </app-formularz-sali>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Anuluj</button>

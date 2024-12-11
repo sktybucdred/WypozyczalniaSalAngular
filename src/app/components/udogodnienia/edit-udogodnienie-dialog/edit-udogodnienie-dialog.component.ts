@@ -52,7 +52,11 @@ export class EditUdogodnienieDialogComponent {
 
   onSave(): void {
     if (this.udogodnienieForm.valid) {
-      this.dialogRef.close(this.udogodnienieForm.value);
+      const updatedUdogodnienie: Udogodnienie = {
+        ...this.data.udogodnienie,
+        ...this.udogodnienieForm.value
+      };
+      this.dialogRef.close(updatedUdogodnienie);
     }
   }
 }

@@ -15,6 +15,7 @@ import {Subscription} from 'rxjs';
 import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.component';
 import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
 import {UdogodnieniaDialogComponent} from '../../udogodnienia/udogodnienia-dialog/udogodnienia-dialog.component';
+import {Udogodnienie} from '../../../models/udogodnienie.model';
 
 
 @Component({
@@ -94,7 +95,13 @@ export class SalaListComponent implements OnInit, OnDestroy {
   openUdogodnieniaDialog(): void {
     const dialogRef = this.dialog.open(UdogodnieniaDialogComponent, {
       width: '600',
-      data: {udogodnienia: this.salaService.getUdogodnienia()}
     });
   }
+  getUdogodnieniaNames(udogodnienia: Udogodnienie[] | null | undefined): string {
+    if (!udogodnienia || udogodnienia.length === 0) {
+      return 'Brak udogodnień'; // Tekst wyświetlany, gdy brak udogodnień
+    }
+    return udogodnienia.map((u) => u.nazwa).join(', ');
+  }
+
 }

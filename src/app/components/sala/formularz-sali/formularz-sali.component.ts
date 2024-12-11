@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Sala } from '../../../models/sala.model';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatOption, MatSelect} from '@angular/material/select';
+import {Udogodnienie} from '../../../models/udogodnienie.model';
 
 @Component({
   selector: 'app-formularz-sali',
@@ -15,12 +17,15 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatSelect,
+    MatOption,
   ],
   templateUrl: './formularz-sali.component.html',
   styleUrls: ['./formularz-sali.component.css'],
 })
-export class FormularzSaliComponent {
+export class FormularzSaliComponent implements OnInit {
   @Input() sala?: Sala;
+  @Input() udogodnienia: Udogodnienie[] = [];
   @Output() submitSala: EventEmitter<Sala> = new EventEmitter<Sala>();
 
   form!: FormGroup;
@@ -31,26 +36,20 @@ export class FormularzSaliComponent {
     this.form = this.fb.group({
       nazwa: [this.sala?.nazwa || '', [Validators.required, Validators.minLength(3)]],
       pojemnosc: [this.sala?.pojemnosc || null, [Validators.required, Validators.min(1)]],
-      udogodnienia: [this.sala?.udogodnienia.join(', ') || '', Validators.pattern(/^[a-zA-Z, ]*$/)],
+      udogodnienia: [this.sala?.udogodnienia.map((u) => u.id) || []],
     });
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
-      const udogodnieniaArray = this.form.value.udogodnienia
-        .split(',')
-        .map((u: string) => u.trim())
-        .filter((u: string) => u !== '');
-
-      const nowaSala = new Sala(
-        this.sala?.id || 0,
-        this.form.value.nazwa,
-        this.form.value.pojemnosc,
-        udogodnieniaArray
-      );
-      this.submitSala.emit(nowaSala);
-    } else {
-      this.form.markAllAsTouched();
-    }
+    const formValue = this.form.value;
+    const sala: Sala = {
+      id: formValue.id,
+      nazwa: formValue.nazwa,
+      pojemnosc: formValue.pojemnosc,
+      udogodnienia: this.udogodnienia.filter((u) =>
+        formValue.udogodnienia.includes(u.id)
+      ),
+    };
+    this.submitSala.emit(sala);
   }
 }

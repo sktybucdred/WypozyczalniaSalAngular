@@ -24,12 +24,13 @@
   </mat-form-field>
 
   <!-- Udogodnienia -->
-  <mat-form-field appearance="fill" style="width: 100%;">
+  <mat-form-field appearance="fill">
     <mat-label>Udogodnienia</mat-label>
-    <input matInput type="text" formControlName="udogodnienia" />
-    @if(form.get('udogodnienia')?.hasError('pattern')) {
-      <mat-error>Udogodnienia mogą zawierać tylko litery i przecinki.</mat-error>
-    }
+    <mat-select multiple formControlName="udogodnienia">
+      <mat-option *ngFor="let udogodnienie of udogodnienia" [value]="udogodnienie.id">
+        {{ udogodnienie.nazwa }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <!-- Submit Button -->
