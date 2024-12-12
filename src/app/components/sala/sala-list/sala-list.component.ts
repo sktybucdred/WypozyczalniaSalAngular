@@ -16,6 +16,7 @@ import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.comp
 import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
 import {UdogodnieniaDialogComponent} from '../../udogodnienia/udogodnienia-dialog/udogodnienia-dialog.component';
 import {Udogodnienie} from '../../../models/udogodnienie.model';
+import { ZmienKolorDyrektywa } from '../../../directives/zmien-kolor.directive';
 
 
 @Component({
@@ -23,7 +24,7 @@ import {Udogodnienie} from '../../../models/udogodnienie.model';
   templateUrl: './sala-list.component.html',
   styleUrls: ['./sala-list.component.css'],
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule, ZmienKolorDyrektywa],
 })
 export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
