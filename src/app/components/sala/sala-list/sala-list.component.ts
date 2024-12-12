@@ -1,5 +1,5 @@
 // src/app/components/sala-list/sala-list.component.ts
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Sala } from '../../../models/sala.model';
 import { SalaService } from '../../../services/sala.service';
 import { AuthService } from '../../../services/auth.service';
@@ -10,12 +10,16 @@ import {ConfirmDeleteDialogComponent} from '../../confirm-delete-dialog/confirm-
 import {AddSalaDialogComponent} from '../add-sala-dialog/add-sala-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {MatTableModule} from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.component';
 import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
 import {UdogodnieniaDialogComponent} from '../../udogodnienia/udogodnienia-dialog/udogodnienia-dialog.component';
 import {Udogodnienie} from '../../../models/udogodnienie.model';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
 
 
 @Component({
@@ -23,19 +27,23 @@ import {Udogodnienie} from '../../../models/udogodnienie.model';
   templateUrl: './sala-list.component.html',
   styleUrls: ['./sala-list.component.css'],
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
+  imports: [MatLabel, CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule, MatFormField, MatPaginator, MatInput],
 })
 export class SalaListComponent implements OnInit, OnDestroy {
-  sale: Sala[] = [];
+  dataSource: MatTableDataSource<Sala> = new MatTableDataSource<Sala>();
   private saleSubscription!: Subscription;
   columnsToDisplay: string[] = ['nazwa', 'pojemnosc', 'udogodnienia', 'actions'];
   private salaService = inject(SalaService);
   private dialog: MatDialog = inject(MatDialog);
   protected authService = inject(AuthService);
 
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
-      this.sale = sale;
+      this.dataSource.data = sale;
+      // Resetujemy filtrowanie po aktualizacji danych
+      this.applyFilter('');
     });
 
     if (this.authService.isAdminLoggedIn()) {
@@ -43,8 +51,23 @@ export class SalaListComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
   ngOnDestroy(): void {
     this.saleSubscription.unsubscribe();
+  }
+  applyFilter(event: Event | string) {
+    let filterValue: string;
+    if (typeof event === 'string') {
+      filterValue = event.trim().toLowerCase();
+    } else {
+      const input = event.target as HTMLInputElement;
+      filterValue = input.value.trim().toLowerCase();
+    }
+    this.dataSource.filter = filterValue;
   }
 
   openEditDialog(sala: Sala): void {
