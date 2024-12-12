@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {Sala} from '../../../models/sala.model';
 import {AuthService} from '../../../services/auth.service';
+import {Udogodnienie} from '../../../models/udogodnienie.model';
 
 @Component({
   selector: 'app-details-sala-dialog',
@@ -29,7 +30,12 @@ export class DetailsSalaDialogComponent implements OnInit {
   onCancel(): void {
     this.dialogRef.close();
   }
-
+  getUdogodnieniaNames(udogodnienia: Udogodnienie[] | null | undefined): string {
+    if (!udogodnienia || udogodnienia.length === 0) {
+      return 'Brak udogodnień'; // Tekst wyświetlany, gdy brak udogodnień
+    }
+    return udogodnienia.map((u) => u.nazwa).join(', ');
+  }
   //to be implemented
 /*  onReserve(): void {
     this.dialogRef.close();

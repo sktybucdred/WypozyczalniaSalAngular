@@ -8,7 +8,7 @@
   }
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
-  <p><strong>Udogodnienia:</strong> {{ sala.udogodnienia.join(', ') }}</p>
+  <p><strong>Udogodnienia:</strong> {{ getUdogodnieniaNames(sala.udogodnienia) }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Close</button>
