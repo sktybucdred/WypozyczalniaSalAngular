@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Rezerwacja } from '../../models/rezerwacja.model';
 import { Sala } from '../../models/sala.model';
-import { RezerwacjeService } from '../../services/rezerwacje.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,7 +34,6 @@ export class AddRezerwacjaDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private rezerwacjeService: RezerwacjeService,
     public dialogRef: MatDialogRef<AddRezerwacjaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { sala: Sala }
   ) {
@@ -93,7 +91,7 @@ export class AddRezerwacjaDialogComponent implements OnInit {
     const endTime = group.get('endTime')?.value;
 
     if (!startDate || !startTime || !endDate || !endTime) {
-      return null; // Pozwól innym walidatorom zwrócić błąd
+      return null;
     }
 
     const startDateTime = new Date(startDate);
@@ -114,7 +112,7 @@ export class AddRezerwacjaDialogComponent implements OnInit {
     const endTime = group.get('endTime')?.value;
 
     if (!startDate || !startTime || !endDate || !endTime) {
-      return null; // Pozwól innym walidatorom zwrócić błąd
+      return null;
     }
 
     const startDateTime = new Date(startDate);
@@ -125,7 +123,6 @@ export class AddRezerwacjaDialogComponent implements OnInit {
     const [endHours, endMinutes] = endTime.split(':');
     endDateTime.setHours(+endHours, +endMinutes);
 
-    // Pobierz rezerwacje tylko dla bieżącej sali
     const salaRezerwacje = this.data.sala.rezerwacje || [];
 
     const conflictingRezerwacje = salaRezerwacje.filter((r) => {

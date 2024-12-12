@@ -1,4 +1,3 @@
-<script src="add-rezerwacja-dialog.component.ts"></script><h2 mat-dialog-title>Dodaj Rezerwację</h2>
 <mat-dialog-content>
   <form [formGroup]="rezerwacjaForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill" style="width: 100%;">
@@ -19,7 +18,6 @@
           Nazwisko jest wymagane
         </mat-error>
       }
-
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
@@ -59,7 +57,7 @@
       <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
       <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #endDatePicker></mat-datepicker>
-      @if (rezerwacjaForm.get('endDate')?.hasError('required')){
+      @if (rezerwacjaForm.get('endDate')?.hasError('required')) {
         <mat-error>
           Data zakończenia jest wymagana
         </mat-error>
@@ -69,8 +67,7 @@
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Czas zakończenia</mat-label>
       <input matInput type="time" formControlName="endTime" required>
-      @if (rezerwacjaForm.get('endTime')?.hasError('required')){
-
+      @if (rezerwacjaForm.get('endTime')?.hasError('required')) {
         <mat-error>
           Czas zakończenia jest wymagany
         </mat-error>
