@@ -11,25 +11,25 @@
   <p><strong>Rezerwacje:</strong></p>
   <table mat-table [dataSource]="sala.rezerwacje" class="rezerwacje-table">
     <!-- ID Column -->
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="id" *ngIf="authService.isAdminLoggedIn()">
       <th mat-header-cell *matHeaderCellDef>ID</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.id }}</td>
     </ng-container>
 
     <!-- Imię Column -->
-    <ng-container matColumnDef="imie">
+    <ng-container matColumnDef="imie" *ngIf="authService.isAdminLoggedIn()">
       <th mat-header-cell *matHeaderCellDef>Imię</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.imie }}</td>
     </ng-container>
 
     <!-- Nazwisko Column -->
-    <ng-container matColumnDef="nazwisko">
+    <ng-container matColumnDef="nazwisko" *ngIf="authService.isAdminLoggedIn()">
       <th mat-header-cell *matHeaderCellDef>Nazwisko</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.nazwisko }}</td>
     </ng-container>
 
     <!-- Email Column -->
-    <ng-container matColumnDef="email">
+    <ng-container matColumnDef="email" *ngIf="authService.isAdminLoggedIn()">
       <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.email }}</td>
     </ng-container>
@@ -61,8 +61,8 @@
       <tr mat-row *matRowDef="let row; columns: ['id', 'imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime', 'actions']"></tr>
     </div>
     <div *ngIf="!authService.isAdminLoggedIn()">
-      <tr mat-header-row *matHeaderRowDef="['imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['startDateTime', 'endDateTime']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['startDateTime', 'endDateTime']"></tr>
     </div>
 
   </table>

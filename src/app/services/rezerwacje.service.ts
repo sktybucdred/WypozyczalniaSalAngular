@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import { Rezerwacja } from '../models/rezerwacja.model';
+import {Sala} from '../models/sala.model';
 
 @Injectable({
   providedIn: 'root',
