@@ -38,6 +38,7 @@ export class FormularzSaliComponent implements OnInit {
       nazwa: [this.sala?.nazwa || '', [Validators.required, Validators.minLength(3)]],
       pojemnosc: [this.sala?.pojemnosc || null, [Validators.required, Validators.min(1)]],
       udogodnienia: [this.sala?.udogodnienia.map((u) => u.id) || []],
+      rezerwacje: [this.sala?.rezerwacje || []],
     });
   }
 
@@ -50,6 +51,7 @@ export class FormularzSaliComponent implements OnInit {
       udogodnienia: this.udogodnienia.filter((u) =>
         formValue.udogodnienia.includes(u.id)
       ),
+      rezerwacje: this.sala?.rezerwacje || [],
     };
     this.submitSala.emit(sala);
   }

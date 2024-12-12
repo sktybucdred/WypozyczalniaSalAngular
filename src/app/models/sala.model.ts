@@ -1,4 +1,5 @@
 import {Udogodnienie} from './udogodnienie.model';
+import {Rezerwacja} from './rezerwacja.model';
 
 export class Sala {
   constructor(
@@ -6,5 +7,6 @@ export class Sala {
     public nazwa: string,
     public pojemnosc: number,
     public udogodnienia: Udogodnienie[],
+    public rezerwacje: Rezerwacja[]
   ) {}
 }

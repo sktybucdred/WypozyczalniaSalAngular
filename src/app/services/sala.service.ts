@@ -48,7 +48,8 @@ export class SalaService {
       newId,
       sala.nazwa,
       sala.pojemnosc,
-      sala.udogodnienia
+      sala.udogodnienia,
+       []
     );
     const updatedSale = [...currentSale, newSala];
     this.saleSubject.next(updatedSale);
