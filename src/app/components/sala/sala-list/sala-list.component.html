@@ -1,16 +1,11 @@
 <h2>Lista Sal</h2>
 
 <!-- Przyciski i inne elementy interfejsu -->
-<div *ngIf="authService.isAdminLoggedIn()">
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="openCreateDialog()"
-    style="margin-bottom: 16px;"
-  >
+@if (authService.isAdminLoggedIn()) {
+  <button mat-raised-button color="primary" (click)="openCreateDialog()" style="margin-bottom: 16px;">
     <mat-icon>add</mat-icon> Dodaj Salę
   </button>
-</div>
+}
 <button
   mat-raised-button
   color="primary"
@@ -31,10 +26,12 @@
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- Kolumna ID (widoczna tylko dla admina) -->
-    <ng-container matColumnDef="id" *ngIf="authService.isAdminLoggedIn()">
+    @if (authService.isAdminLoggedIn()){
+    <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header zmienKolor>ID</th>
       <td mat-cell *matCellDef="let element">{{element.id}}</td>
     </ng-container>
+    }
 
     <!-- Kolumna Nazwa -->
     <ng-container matColumnDef="nazwa">
@@ -61,12 +58,16 @@
         <button mat-icon-button color="primary" (click)="openDetailsDialog(element)">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button *ngIf="authService.isAdminLoggedIn()" mat-icon-button color="accent" (click)="openEditDialog(element)">
+        @if (authService.isAdminLoggedIn()){
+        <button mat-icon-button color="accent" (click)="openEditDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button *ngIf="authService.isAdminLoggedIn()" mat-icon-button color="warn" (click)="openDeleteDialog(element)">
+        }
+        @if (authService.isAdminLoggedIn()){
+        <button mat-icon-button color="warn" (click)="openDeleteDialog(element)">
           <mat-icon>delete</mat-icon>
         </button>
+        }
       </td>
     </ng-container>
 

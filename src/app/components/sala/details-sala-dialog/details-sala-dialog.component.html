@@ -2,7 +2,7 @@
 
 <h2 mat-dialog-title>{{sala.nazwa}}</h2>
 <mat-dialog-content>
-  <ng-container *ngIf="authService.isAdminLoggedIn()">
+  <ng-container>
     <p><strong>ID:</strong> {{ sala.id }}</p>
   </ng-container>
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
@@ -11,29 +11,33 @@
   <p><strong>Rezerwacje:</strong></p>
   <table mat-table [dataSource]="rezerwacje" class="rezerwacje-table">
     <!-- ID Column -->
-    <ng-container matColumnDef="id" *ngIf="authService.isAdminLoggedIn()">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.id }}</td>
-    </ng-container>
-
+    @if (authService.isAdminLoggedIn()) {
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.id }}</td>
+      </ng-container>
+    }
+    @if (authService.isAdminLoggedIn()){
     <!-- Imię Column -->
-    <ng-container matColumnDef="imie" *ngIf="authService.isAdminLoggedIn()">
+    <ng-container matColumnDef="imie">
       <th mat-header-cell *matHeaderCellDef>Imię</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.imie }}</td>
     </ng-container>
-
+    }
+    @if (authService.isAdminLoggedIn()){
     <!-- Nazwisko Column -->
-    <ng-container matColumnDef="nazwisko" *ngIf="authService.isAdminLoggedIn()">
+    <ng-container matColumnDef="nazwisko">
       <th mat-header-cell *matHeaderCellDef>Nazwisko</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.nazwisko }}</td>
     </ng-container>
-
+    }
+    @if (authService.isAdminLoggedIn()){
     <!-- Email Column -->
-    <ng-container matColumnDef="email" *ngIf="authService.isAdminLoggedIn()">
+    <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef>Email</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.email }}</td>
     </ng-container>
-
+    }
     <!-- Start Date Column -->
     <ng-container matColumnDef="startDateTime">
       <th mat-header-cell *matHeaderCellDef>Data rozpoczęcia</th>
@@ -45,8 +49,8 @@
       <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
       <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.endDateTime | date: 'short' }}</td>
     </ng-container>
-
-    <ng-container matColumnDef="actions" *ngIf="authService.isAdminLoggedIn()">
+    @if (authService.isAdminLoggedIn()){
+    <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Akcje</th>
       <td mat-cell *matCellDef="let rezerwacja">
         <button mat-icon-button (click)="onDeleteRezerwacja(rezerwacja.id)">
@@ -54,16 +58,16 @@
         </button>
       </td>
     </ng-container>
-
+    }
     <!-- Header and Row Declarations -->
-    <div *ngIf="authService.isAdminLoggedIn()">
+    @if (authService.isAdminLoggedIn()){
       <tr mat-header-row *matHeaderRowDef="['id', 'imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime', 'actions']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['id', 'imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime', 'actions']"></tr>
-    </div>
-    <div *ngIf="!authService.isAdminLoggedIn()">
+    }
+    @if (!authService.isAdminLoggedIn()){
       <tr mat-header-row *matHeaderRowDef="['startDateTime', 'endDateTime']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['startDateTime', 'endDateTime']"></tr>
-    </div>
+    }
 
   </table>
 </mat-dialog-content>

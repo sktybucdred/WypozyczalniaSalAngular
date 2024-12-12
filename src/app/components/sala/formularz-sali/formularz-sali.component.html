@@ -27,11 +27,15 @@
   <mat-form-field appearance="fill">
     <mat-label>Udogodnienia</mat-label>
     <mat-select multiple formControlName="udogodnienia">
-      <mat-option *ngFor="let udogodnienie of udogodnienia" [value]="udogodnienie.id">
-        {{ udogodnienie.nazwa }}
-      </mat-option>
+      @for (udogodnienie of udogodnienia; track udogodnienie.id) {
+        <mat-option [value]="udogodnienie.id">
+          {{ udogodnienie.nazwa }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
+
+
 
   <!-- Submit Button -->
   <button type="submit">Submit</button>

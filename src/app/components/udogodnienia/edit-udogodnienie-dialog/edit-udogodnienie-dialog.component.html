@@ -5,17 +5,21 @@
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Nazwa</mat-label>
       <input matInput formControlName="nazwa" required />
-      <mat-error *ngIf="udogodnienieForm.get('nazwa')?.hasError('required')">
+      @if (udogodnienieForm.get('nazwa')?.hasError('required')){
+      <mat-error >
         Nazwa jest wymagana
       </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Opis</mat-label>
       <input matInput formControlName="opis" required />
-      <mat-error *ngIf="udogodnienieForm.get('opis')?.hasError('required')">
+      @if (udogodnienieForm.get('nazwa')?.hasError('required')){
+      <mat-error >
         Opis jest wymagany
       </mat-error>
+      }
     </mat-form-field>
   </form>
 </mat-dialog-content>

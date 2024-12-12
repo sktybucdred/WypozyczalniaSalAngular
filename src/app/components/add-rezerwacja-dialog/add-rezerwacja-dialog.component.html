@@ -4,25 +4,32 @@
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Imię</mat-label>
       <input matInput formControlName="imie" required>
-      <mat-error *ngIf="rezerwacjaForm.get('imie')?.hasError('required')">
-        Imię jest wymagane
-      </mat-error>
+      @if (rezerwacjaForm.get('imie')?.hasError('required')) {
+        <mat-error>
+          Imię jest wymagane
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Nazwisko</mat-label>
       <input matInput formControlName="nazwisko" required>
-      <mat-error *ngIf="rezerwacjaForm.get('nazwisko')?.hasError('required')">
-        Nazwisko jest wymagane
-      </mat-error>
+      @if (rezerwacjaForm.get('nazwisko')?.hasError('required')) {
+        <mat-error>
+          Nazwisko jest wymagane
+        </mat-error>
+      }
+
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" required>
-      <mat-error *ngIf="rezerwacjaForm.get('email')?.hasError('required')">
-        Email jest wymagany
-      </mat-error>
+      @if (rezerwacjaForm.get('email')?.hasError('required')) {
+        <mat-error>
+          Email jest wymagany
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
@@ -30,17 +37,21 @@
       <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
       <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #startDatePicker></mat-datepicker>
-      <mat-error *ngIf="rezerwacjaForm.get('startDate')?.hasError('required')">
-        Data rozpoczęcia jest wymagana
-      </mat-error>
+      @if (rezerwacjaForm.get('startDate')?.hasError('required')) {
+        <mat-error>
+          Data rozpoczęcia jest wymagana
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Czas rozpoczęcia</mat-label>
       <input matInput type="time" formControlName="startTime" required>
-      <mat-error *ngIf="rezerwacjaForm.get('startTime')?.hasError('required')">
-        Czas rozpoczęcia jest wymagany
-      </mat-error>
+      @if (rezerwacjaForm.get('startTime')?.hasError('required')) {
+        <mat-error>
+          Czas rozpoczęcia jest wymagany
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
@@ -48,24 +59,34 @@
       <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
       <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #endDatePicker></mat-datepicker>
-      <mat-error *ngIf="rezerwacjaForm.get('endDate')?.hasError('required')">
-        Data zakończenia jest wymagana
-      </mat-error>
+      @if (rezerwacjaForm.get('endDate')?.hasError('required')){
+        <mat-error>
+          Data zakończenia jest wymagana
+        </mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Czas zakończenia</mat-label>
       <input matInput type="time" formControlName="endTime" required>
-      <mat-error *ngIf="rezerwacjaForm.get('endTime')?.hasError('required')">
-        Czas zakończenia jest wymagany
-      </mat-error>
+      @if (rezerwacjaForm.get('endTime')?.hasError('required')){
+
+        <mat-error>
+          Czas zakończenia jest wymagany
+        </mat-error>
+      }
     </mat-form-field>
-    <div *ngIf="rezerwacjaForm.errors?.['invalidDateRange']" class="error">
-      Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.
-    </div>
-    <div *ngIf="rezerwacjaForm.errors?.['conflict']" class="error">
-      Sala jest już wynajęta w podanym czasie. Wybierz inny termin.
-    </div>
+    @if (rezerwacjaForm.errors?.['invalidDateRange']) {
+      <div class="error">
+        Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.
+      </div>
+    }
+
+    @if (rezerwacjaForm.errors?.['conflict']) {
+      <div class="error">
+        Sala jest już wynajęta w podanym czasie. Wybierz inny termin.
+      </div>
+    }
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Anuluj</button>
       <button mat-raised-button color="primary" type="submit" [disabled]="!rezerwacjaForm.valid">Dodaj</button>
