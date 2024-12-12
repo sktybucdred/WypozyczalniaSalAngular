@@ -35,19 +35,21 @@ export class AddRezerwacjaDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private rezerwacjeService: RezerwacjeService,
     public dialogRef: MatDialogRef<AddRezerwacjaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { sala: Sala }
   ) {
-    this.rezerwacjaForm = this.fb.group({
-      imie: ['', Validators.required],
-      nazwisko: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      startDate: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endDate: ['', Validators.required],
-      endTime: ['', Validators.required]
-    });
+    this.rezerwacjaForm = this.fb.group(
+      {
+        imie: ['', Validators.required],
+        nazwisko: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        startDate: ['', Validators.required],
+        startTime: ['', Validators.required],
+        endDate: ['', Validators.required],
+        endTime: ['', Validators.required],
+      },
+      { validators: this.dateRangeValidator }
+    );
   }
 
   ngOnInit(): void {}
@@ -57,25 +59,48 @@ export class AddRezerwacjaDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.rezerwacjaForm.valid) {
-      const formValues = this.rezerwacjaForm.value;
-      const startDateTime = new Date(formValues.startDate);
-      const [startHours, startMinutes] = formValues.startTime.split(':');
-      startDateTime.setHours(startHours, startMinutes);
-
-      const endDateTime = new Date(formValues.endDate);
-      const [endHours, endMinutes] = formValues.endTime.split(':');
-      endDateTime.setHours(endHours, endMinutes);
-
-      const newRezerwacja: Rezerwacja = {
-        id: 0, // This will be set by the service
-        imie: formValues.imie,
-        nazwisko: formValues.nazwisko,
-        email: formValues.email,
-        startDateTime,
-        endDateTime
-      };
-      this.dialogRef.close(newRezerwacja);
+    if (this.rezerwacjaForm.invalid) {
+      return; // Jeśli formularz jest niepoprawny, zakończ działanie
     }
+
+    const formValues = this.rezerwacjaForm.value;
+    const startDateTime = new Date(formValues.startDate);
+    const [startHours, startMinutes] = formValues.startTime.split(':');
+    startDateTime.setHours(startHours, startMinutes);
+
+    const endDateTime = new Date(formValues.endDate);
+    const [endHours, endMinutes] = formValues.endTime.split(':');
+    endDateTime.setHours(endHours, endMinutes);
+
+    const newRezerwacja: Rezerwacja = {
+      id: 0, // This will be set by the service
+      imie: formValues.imie,
+      nazwisko: formValues.nazwisko,
+      email: formValues.email,
+      startDateTime,
+      endDateTime
+    };
+    this.dialogRef.close(newRezerwacja);
+  }
+
+  private dateRangeValidator(group: FormGroup): { [key: string]: any } | null {
+    const startDate = group.get('startDate')?.value;
+    const startTime = group.get('startTime')?.value;
+    const endDate = group.get('endDate')?.value;
+    const endTime = group.get('endTime')?.value;
+
+    if (!startDate || !startTime || !endDate || !endTime) {
+      return null; // Pozwól innym walidatorom zwrócić błąd
+    }
+
+    const startDateTime = new Date(startDate);
+    const [startHours, startMinutes] = startTime.split(':');
+    startDateTime.setHours(startHours, startMinutes);
+
+    const endDateTime = new Date(endDate);
+    const [endHours, endMinutes] = endTime.split(':');
+    endDateTime.setHours(endHours, endMinutes);
+
+    return endDateTime >= startDateTime ? null : { invalidDateRange: true };
   }
 }

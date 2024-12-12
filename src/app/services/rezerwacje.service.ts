@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Rezerwacja } from '../models/rezerwacja.model';
-import { Sala } from '../models/sala.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +20,12 @@ export class RezerwacjeService {
   }
 
   addRezerwacja(rezerwacja: Rezerwacja): Rezerwacja {
+    if (new Date(rezerwacja.endDateTime) < new Date(rezerwacja.startDateTime)) {
+      throw new Error('Data końcowa nie może być wcześniejsza niż data początkowa');
+    }
     const currentRezerwacje = this.getRezerwacje();
-    const newId = currentRezerwacje.length > 0 
-      ? Math.max(...currentRezerwacje.map((r) => r.id)) + 1 
+    const newId = currentRezerwacje.length > 0
+      ? Math.max(...currentRezerwacje.map((r) => r.id)) + 1
       : 1;
 
     const newRezerwacja = new Rezerwacja(
@@ -38,7 +40,7 @@ export class RezerwacjeService {
     const updatedRezerwacje = [...currentRezerwacje, newRezerwacja];
     this.rezerwacjeSubject.next(updatedRezerwacje);
     this.saveRezerwacjeToStorage(updatedRezerwacje);
-    
+
     return newRezerwacja;
   }
 

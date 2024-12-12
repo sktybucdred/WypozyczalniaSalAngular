@@ -61,10 +61,10 @@
         <button mat-icon-button color="primary" (click)="openDetailsDialog(element)">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="openEditDialog(element)">
+        <button *ngIf="authService.isAdminLoggedIn()" mat-icon-button color="accent" (click)="openEditDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="openDeleteDialog(element)">
+        <button *ngIf="authService.isAdminLoggedIn()" mat-icon-button color="warn" (click)="openDeleteDialog(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

@@ -59,6 +59,9 @@
       <mat-error *ngIf="rezerwacjaForm.get('endTime')?.hasError('required')">
         Czas zakończenia jest wymagany
       </mat-error>
+      <div *ngIf="rezerwacjaForm.errors?.['invalidDateRange']" class="error">
+      Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.
+    </div>
     </mat-form-field>
 
     <mat-dialog-actions align="end">

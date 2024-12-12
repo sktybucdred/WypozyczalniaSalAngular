@@ -94,14 +94,27 @@ export class SalaService {
   addRezerwacjaToSala(sala: Sala, rezerwacja: Rezerwacja): void {
     const currentSale = this.getSale();
     const salaToUpdate = currentSale.find(s => s.id === sala.id);
-    
+
     if (salaToUpdate) {
       if (!salaToUpdate.rezerwacje) {
         salaToUpdate.rezerwacje = [];
       }
       salaToUpdate.rezerwacje.push(rezerwacja);
-      
+
       this.updateSala(salaToUpdate);
+    }
+  }
+
+  removeRezerwacjaFromSala(sala: Sala, rezerwacjaId: number): void {
+    const currentSale = this.getSale();
+    const salaToUpdate = currentSale.find(s => s.id === sala.id);
+
+    if (salaToUpdate) {
+      if (salaToUpdate.rezerwacje) {
+        salaToUpdate.rezerwacje = salaToUpdate.rezerwacje.filter(r => r.id !== rezerwacjaId);
+
+        this.updateSala(salaToUpdate);
+      }
     }
   }
 

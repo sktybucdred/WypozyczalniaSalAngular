@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, inject, Inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -102,11 +102,18 @@ export class DetailsSalaDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDeleteRezerwacja(rezerwacjaId: number): void {
+    this.rezerwacjeService.deleteRezerwacja(rezerwacjaId);
+    this.salaService.removeRezerwacjaFromSala(this.sala, rezerwacjaId);
+    this.rezerwacje = this.rezerwacje.filter(rezerwacja => rezerwacja.id !== rezerwacjaId);
+  }
+
+
   private filterRezerwacjeBySala(rezerwacje: Rezerwacja[]): Rezerwacja[] {
     if (!this.sala || !this.sala.rezerwacje) {
         return [];
     }
-    return rezerwacje.filter(rezerwacja => 
+    return rezerwacje.filter(rezerwacja =>
         this.sala.rezerwacje.some(r => r.id === rezerwacja.id)
     );
   }
