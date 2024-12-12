@@ -2,14 +2,58 @@
 
 <h2 mat-dialog-title>{{sala.nazwa}}</h2>
 <mat-dialog-content>
-  @if(authService.isAdminLoggedIn())
-  {
+  <ng-container *ngIf="authService.isAdminLoggedIn()">
     <p><strong>ID:</strong> {{ sala.id }}</p>
-  }
+  </ng-container>
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
-  <p><strong>Udogodnienia:</strong> {{ sala.udogodnienia.join(', ') }}</p>
+  <p><strong>Udogodnienia:</strong> {{ getUdogodnieniaNames(sala.udogodnienia) }}</p>
+  <p><strong>Rezerwacje:</strong></p>
+  <table mat-table [dataSource]="sala.rezerwacje" class="rezerwacje-table">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.id }}</td>
+    </ng-container>
+
+    <!-- Imię Column -->
+    <ng-container matColumnDef="imie">
+      <th mat-header-cell *matHeaderCellDef>Imię</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.imie }}</td>
+    </ng-container>
+
+    <!-- Nazwisko Column -->
+    <ng-container matColumnDef="nazwisko">
+      <th mat-header-cell *matHeaderCellDef>Nazwisko</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.nazwisko }}</td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.email }}</td>
+    </ng-container>
+
+    <!-- Start Date Column -->
+    <ng-container matColumnDef="startDateTime">
+      <th mat-header-cell *matHeaderCellDef>Data rozpoczęcia</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.startDateTime | date: 'short' }}</td>
+    </ng-container>
+
+    <!-- End Date Column -->
+    <ng-container matColumnDef="endDateTime">
+      <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
+      <td mat-cell *matCellDef="let rezerwacja">{{ rezerwacja.endDateTime | date: 'short' }}</td>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <tr mat-header-row *matHeaderRowDef="['id', 'imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id', 'imie', 'nazwisko', 'email', 'startDateTime', 'endDateTime']"></tr>
+  </table>
 </mat-dialog-content>
+<mat-dialog-actions align="start">
+  <button mat-button (click)="onAddRezerwacja()">Dodaj Rezerwacje</button>
+</mat-dialog-actions>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Close</button>
 </mat-dialog-actions>

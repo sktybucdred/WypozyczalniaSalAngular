@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Dodaj Rezerwację</h2>
+<mat-dialog-content>
+  <form [formGroup]="rezerwacjaForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Imię</mat-label>
+      <input matInput formControlName="imie" required>
+      <mat-error *ngIf="rezerwacjaForm.get('imie')?.hasError('required')">
+        Imię jest wymagane
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nazwisko</mat-label>
+      <input matInput formControlName="nazwisko" required>
+      <mat-error *ngIf="rezerwacjaForm.get('nazwisko')?.hasError('required')">
+        Nazwisko jest wymagane
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="rezerwacjaForm.get('email')?.hasError('required')">
+        Email jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Data rozpoczęcia</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+      <mat-error *ngIf="rezerwacjaForm.get('startDate')?.hasError('required')">
+        Data rozpoczęcia jest wymagana
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Czas rozpoczęcia</mat-label>
+      <input matInput type="time" formControlName="startTime" required>
+      <mat-error *ngIf="rezerwacjaForm.get('startTime')?.hasError('required')">
+        Czas rozpoczęcia jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Data zakończenia</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error *ngIf="rezerwacjaForm.get('endDate')?.hasError('required')">
+        Data zakończenia jest wymagana
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Czas zakończenia</mat-label>
+      <input matInput type="time" formControlName="endTime" required>
+      <mat-error *ngIf="rezerwacjaForm.get('endTime')?.hasError('required')">
+        Czas zakończenia jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">Anuluj</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!rezerwacjaForm.valid">Dodaj</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

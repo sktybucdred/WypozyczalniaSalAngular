@@ -1,0 +1,22 @@
+.sala-details {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rezerwacje-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.rezerwacje-table th,
+.rezerwacje-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.rezerwacje-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
