@@ -16,18 +16,14 @@ import {EditSalaDialogComponent} from '../edit-sala-dialog/edit-sala-dialog.comp
 import {DetailsSalaDialogComponent} from '../details-sala-dialog/details-sala-dialog.component';
 import {UdogodnieniaDialogComponent} from '../../udogodnienia/udogodnienia-dialog/udogodnienia-dialog.component';
 import {Udogodnienie} from '../../../models/udogodnienie.model';
-import {MatFormField, MatOption, MatSelect, MatSelectModule} from '@angular/material/select';
-import {MatLabel} from '@angular/material/select';
-import {ZmienKolorDyrektywa} from '../../../zmien-kolor.dyrektywa';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatOptionModule} from '@angular/material/core';
+
 
 @Component({
   selector: 'app-sala-list',
   templateUrl: './sala-list.component.html',
   styleUrls: ['./sala-list.component.css'],
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule, MatSelectModule, MatSelect, MatOption, MatFormField, ZmienKolorDyrektywa],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule],
 })
 export class SalaListComponent implements OnInit, OnDestroy {
   sale: Sala[] = [];
@@ -37,8 +33,6 @@ export class SalaListComponent implements OnInit, OnDestroy {
   private dialog: MatDialog = inject(MatDialog);
   protected authService = inject(AuthService);
 
-  sortField: keyof Sala = 'nazwa';
-  sortOrder: 'asc' | 'desc' = 'asc';
   ngOnInit(): void {
     this.saleSubscription = this.salaService.sale$.subscribe((sale) => {
       this.sale = sale;
@@ -109,22 +103,5 @@ export class SalaListComponent implements OnInit, OnDestroy {
     }
     return udogodnienia.map((u) => u.nazwa).join(', ');
   }
-  // Zmiana pola sortowania
-  onSortFieldChange(field: keyof Sala): void {
-    console.log('Zmiana pola sortowania:', field); // Debugowanie
-    this.sortField = field;
-    this.updateSort();
-  }
 
-  onSortOrderChange(order: 'asc' | 'desc'): void {
-    console.log('Zmiana kierunku sortowania:', order); // Debugowanie
-    this.sortOrder = order;
-    this.updateSort();
-  }
-
-
-  // Aktualizacja sortowania
-  private updateSort(): void {
-    this.salaService.sortSale(this.sortField, this.sortOrder);
-  }
 }

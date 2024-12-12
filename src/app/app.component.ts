@@ -6,7 +6,6 @@ import { provideAnimations } from '@angular/platform-browser/animations'; // Imp
 import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {AuthService} from './services/auth.service'; // Example: Import MatToolbarModule
-import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +18,9 @@ import { provideNativeDateAdapter } from '@angular/material/core';
     MatIconModule,
     MatToolbarModule,
   ],
-  providers: [
+/*  providers: [
     provideAnimations(),
-  ],
+  ],*/
 })
 export class AppComponent {
   constructor(public authService: AuthService) {

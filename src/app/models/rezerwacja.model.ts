@@ -4,7 +4,8 @@ export class Rezerwacja {
     public salaId: number,
     public imie: string,
     public nazwisko: string,
-    public startDateTime: string,
-    public endDateTime: string,
+    public email: string,
+    public startDateTime: Date,
+    public endDateTime: Date
   ) {}
 }
