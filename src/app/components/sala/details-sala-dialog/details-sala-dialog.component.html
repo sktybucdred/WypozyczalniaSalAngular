@@ -9,7 +9,12 @@
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
   <p><strong>Udogodnienia:</strong> {{ getUdogodnieniaNames(sala.udogodnienia) }}</p>
+  <p><strong>Rezerwacje:</strong> {{ getRezerwacjeDates(sala.rezerwacje) }}</p>
 </mat-dialog-content>
+<mat-dialog-actions align="start">
+  <button mat-button (click)="onAddRezerwacja()">Dodaj Rezerwacje</button>
+</mat-dialog-actions>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Close</button>
 </mat-dialog-actions>
+

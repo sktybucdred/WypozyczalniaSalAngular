@@ -1,9 +1,11 @@
 // src/app/services/sala.service.ts
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Sala } from '../models/sala.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {UdogodnieniaService} from './udogodnienia.service';
 import {Udogodnienie} from '../models/udogodnienie.model';
+import { RezerwacjeService } from './rezerwacje.service';
+import { Rezerwacja } from '../models/rezerwacja.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ export class SalaService {
   private readonly STORAGE_KEY = 'salaData';
   private saleSubject: BehaviorSubject<Sala[]> = new BehaviorSubject<Sala[]>([]);
   public sale$: Observable<Sala[]> = this.saleSubject.asObservable();
+  private rezerwacjeService = inject(RezerwacjeService);
 
   constructor(private udogodnieniaService: UdogodnieniaService) {
     const savedSale = this.getSaleFromStorage();
@@ -20,6 +23,11 @@ export class SalaService {
     // Subskrybuj zmiany w udogodnieniach
     this.udogodnieniaService.udogodnienia$.subscribe((udogodnienia) => {
       this.syncUdogodnienia(udogodnienia);
+    });
+
+    // Subskrybuj zmiany w rezerwacjach
+    this.rezerwacjeService.rezerwacje$.subscribe((rezerwacje: Rezerwacja[]) => {
+      this.syncRezerwacje(rezerwacje);
     });
   }
   private syncUdogodnienia(udogodnienia: Udogodnienie[]): void {
@@ -36,6 +44,24 @@ export class SalaService {
     this.saleSubject.next(updatedSale);
     this.saveSaleToStorage(updatedSale);
   }
+
+  private syncRezerwacje(rezerwacje: Rezerwacja[]): void {
+    const currentSale = this.getSale();
+    const updatedSale = currentSale.map((sala) => {
+      // Add null check and provide empty array as fallback
+      const currentRezerwacje = sala.rezerwacje || [];
+      const updatedRezerwacje = currentRezerwacje.filter((r) =>
+        rezerwacje.some((updatedR) => updatedR.id === r.id)
+      ).map((r) => {
+        const updated = rezerwacje.find((updatedR) => updatedR.id === r.id);
+        return updated || r;
+      });
+      return { ...sala, rezerwacje: updatedRezerwacje };
+    });
+    this.saleSubject.next(updatedSale);
+    this.saveSaleToStorage(updatedSale);
+  }
+
   // Retrieve current list of Sala
   getSale(): Sala[] {
     return this.saleSubject.getValue();
@@ -48,8 +74,8 @@ export class SalaService {
       newId,
       sala.nazwa,
       sala.pojemnosc,
-      sala.udogodnienia,
-       []
+      sala.udogodnienia || [],
+      sala.rezerwacje || [] // Ensure rezerwacje is initialized
     );
     const updatedSale = [...currentSale, newSala];
     this.saleSubject.next(updatedSale);
@@ -65,6 +91,19 @@ export class SalaService {
     this.saveSaleToStorage(updatedSale);
   }
 
+  addRezerwacjaToSala(sala: Sala, rezerwacja: Rezerwacja): void {
+    const currentSale = this.getSale();
+    const salaToUpdate = currentSale.find(s => s.id === sala.id);
+    
+    if (salaToUpdate) {
+      if (!salaToUpdate.rezerwacje) {
+        salaToUpdate.rezerwacje = [];
+      }
+      salaToUpdate.rezerwacje.push(rezerwacja);
+      
+      this.updateSala(salaToUpdate);
+    }
+  }
 
   // Delete a Sala by ID
   deleteSala(id: number): void {
