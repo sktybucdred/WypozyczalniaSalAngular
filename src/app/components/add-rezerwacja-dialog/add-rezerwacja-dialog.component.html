@@ -27,21 +27,37 @@
 
     <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Data rozpoczęcia</mat-label>
-      <input matInput [matDatepicker]="startPicker" formControlName="startDateTime" required>
-      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-      <mat-datepicker #startPicker></mat-datepicker>
-      <mat-error *ngIf="rezerwacjaForm.get('startDateTime')?.hasError('required')">
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required>
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+      <mat-error *ngIf="rezerwacjaForm.get('startDate')?.hasError('required')">
         Data rozpoczęcia jest wymagana
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Czas rozpoczęcia</mat-label>
+      <input matInput type="time" formControlName="startTime" required>
+      <mat-error *ngIf="rezerwacjaForm.get('startTime')?.hasError('required')">
+        Czas rozpoczęcia jest wymagany
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
       <mat-label>Data zakończenia</mat-label>
-      <input matInput [matDatepicker]="endPicker" formControlName="endDateTime" required>
-      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-      <mat-datepicker #endPicker></mat-datepicker>
-      <mat-error *ngIf="rezerwacjaForm.get('endDateTime')?.hasError('required')">
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required>
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+      <mat-error *ngIf="rezerwacjaForm.get('endDate')?.hasError('required')">
         Data zakończenia jest wymagana
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Czas zakończenia</mat-label>
+      <input matInput type="time" formControlName="endTime" required>
+      <mat-error *ngIf="rezerwacjaForm.get('endTime')?.hasError('required')">
+        Czas zakończenia jest wymagany
       </mat-error>
     </mat-form-field>
 

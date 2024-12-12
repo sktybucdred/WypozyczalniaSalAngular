@@ -97,7 +97,8 @@ export class SalaListComponent implements OnInit, OnDestroy {
 
   openDetailsDialog(sala: Sala): void {
     const dialogRef = this.dialog.open(DetailsSalaDialogComponent, {
-      width: '600px',
+      width: '800px',
+      maxWidth: '800px',
       data: {sala},
     });
   }

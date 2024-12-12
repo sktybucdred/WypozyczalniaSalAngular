@@ -8,9 +8,10 @@ import { Sala } from '../../models/sala.model';
 import { RezerwacjeService } from '../../services/rezerwacje.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-add-rezerwacja-dialog',
@@ -21,9 +22,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './add-rezerwacja-dialog.component.html',
   styleUrls: ['./add-rezerwacja-dialog.component.css']
@@ -37,21 +39,18 @@ export class AddRezerwacjaDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddRezerwacjaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { sala: Sala }
   ) {
-    console.log('AddRezerwacjaDialogComponent constructor called');
-    console.log('Received data:', data);
-
     this.rezerwacjaForm = this.fb.group({
       imie: ['', Validators.required],
       nazwisko: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      startDateTime: ['', Validators.required],
-      endDateTime: ['', Validators.required]
+      startDate: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endDate: ['', Validators.required],
+      endTime: ['', Validators.required]
     });
   }
 
-  ngOnInit(): void {
-    console.log('AddRezerwacjaDialogComponent ngOnInit called');
-  }
+  ngOnInit(): void {}
 
   onCancel(): void {
     this.dialogRef.close();
@@ -59,9 +58,22 @@ export class AddRezerwacjaDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.rezerwacjaForm.valid) {
+      const formValues = this.rezerwacjaForm.value;
+      const startDateTime = new Date(formValues.startDate);
+      const [startHours, startMinutes] = formValues.startTime.split(':');
+      startDateTime.setHours(startHours, startMinutes);
+
+      const endDateTime = new Date(formValues.endDate);
+      const [endHours, endMinutes] = formValues.endTime.split(':');
+      endDateTime.setHours(endHours, endMinutes);
+
       const newRezerwacja: Rezerwacja = {
         id: 0, // This will be set by the service
-        ...this.rezerwacjaForm.value
+        imie: formValues.imie,
+        nazwisko: formValues.nazwisko,
+        email: formValues.email,
+        startDateTime,
+        endDateTime
       };
       this.dialogRef.close(newRezerwacja);
     }
