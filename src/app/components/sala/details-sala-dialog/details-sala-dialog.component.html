@@ -9,7 +9,7 @@
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
   <p><strong>Udogodnienia:</strong> {{ getUdogodnieniaNames(sala.udogodnienia) }}</p>
   <p><strong>Rezerwacje:</strong></p>
-  <table mat-table [dataSource]="sala.rezerwacje" class="rezerwacje-table">
+  <table mat-table [dataSource]="rezerwacje" class="rezerwacje-table">
     <!-- ID Column -->
     <ng-container matColumnDef="id" *ngIf="authService.isAdminLoggedIn()">
       <th mat-header-cell *matHeaderCellDef>ID</th>

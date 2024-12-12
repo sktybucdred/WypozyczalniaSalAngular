@@ -111,10 +111,18 @@ export class DetailsSalaDialogComponent implements OnInit, OnDestroy {
 
   private filterRezerwacjeBySala(rezerwacje: Rezerwacja[]): Rezerwacja[] {
     if (!this.sala || !this.sala.rezerwacje) {
-        return [];
+      return [];
     }
-    return rezerwacje.filter(rezerwacja =>
-        this.sala.rezerwacje.some(r => r.id === rezerwacja.id)
+
+    const salaRezerwacje = rezerwacje.filter(rezerwacja =>
+      this.sala.rezerwacje.some(r => r.id === rezerwacja.id)
     );
+
+    // Sortujemy rezerwacje według daty rozpoczęcia od najwcześniejszej
+    salaRezerwacje.sort((a, b) => {
+      return new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime();
+    });
+
+    return salaRezerwacje;
   }
 }
