@@ -20,14 +20,14 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
-
+import { MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-sala-list',
   templateUrl: './sala-list.component.html',
   styleUrls: ['./sala-list.component.css'],
   standalone: true,
-  imports: [MatLabel, CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule, MatFormField, MatPaginator, MatInput],
+  imports: [MatSortModule, MatLabel, CommonModule, MatDialogModule, MatButtonModule, MatIconModule, MatTableModule, MatFormField, MatPaginator, MatInput, MatSort],
 })
 export class SalaListComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Sala> = new MatTableDataSource<Sala>();

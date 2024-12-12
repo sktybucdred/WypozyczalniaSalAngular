@@ -1,3 +1,25 @@
+<h2>Lista Sal</h2>
+
+<!-- Przyciski i inne elementy interfejsu -->
+<div *ngIf="authService.isAdminLoggedIn()">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="openCreateDialog()"
+    style="margin-bottom: 16px;"
+  >
+    <mat-icon>add</mat-icon> Dodaj Salę
+  </button>
+</div>
+<button
+  mat-raised-button
+  color="primary"
+  (click)="openUdogodnieniaDialog()"
+  style="margin-bottom: 16px;"
+>
+  <mat-icon>Udogodnienia</mat-icon> Przeglądaj Udogodnienia
+</button>
+
 <div class="sala-list-container">
   <!-- Pole filtrowania -->
   <mat-form-field appearance="fill">
