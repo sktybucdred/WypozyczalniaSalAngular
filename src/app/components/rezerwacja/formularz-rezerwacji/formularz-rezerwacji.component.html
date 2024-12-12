@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Imię</mat-label>
+    <input matInput type="text" formControlName="imie">
+    <mat-error *ngIf="form.get('imie')?.hasError('required')">
+      Imię jest wymagane
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Nazwisko</mat-label>
+    <input matInput type="text" formControlName="nazwisko">
+    <mat-error *ngIf="form.get('nazwisko')?.hasError('required')">
+      Nazwisko jest wymagane
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Data rozpoczęcia</mat-label>
+    <input matInput type="text" formControlName="startDate" placeholder="YYYY-MM-DD">
+    <mat-error *ngIf="form.get('startDate')?.hasError('required')">
+      Data rozpoczęcia jest wymagana
+    </mat-error>
+    <mat-error *ngIf="form.get('startDate')?.hasError('invalidDate')">
+      Podaj poprawny format daty (YYYY-MM-DD).
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Data zakończenia</mat-label>
+    <input matInput type="text" formControlName="endDate" placeholder="YYYY-MM-DD">
+    <mat-error *ngIf="form.get('endDate')?.hasError('required')">
+      Data zakończenia jest wymagana
+    </mat-error>
+    <mat-error *ngIf="form.get('endDate')?.hasError('invalidDate')">
+      Podaj poprawny format daty (YYYY-MM-DD).
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    Zapisz rezerwację
+  </button>
+
+  <mat-error *ngIf="form.hasError('endBeforeStart')">
+    Data zakończenia musi być późniejsza niż data rozpoczęcia.
+  </mat-error>
+</form>

@@ -1,13 +1,14 @@
 <!-- src/app/components/sala-list/sala-list.component.html -->
 <h2>Lista Sal</h2>
-@if(authService.isAdminLoggedIn()){
+@if (authService.isAdminLoggedIn()) {
   <button
     mat-raised-button
     color="primary"
     (click)="openCreateDialog()"
     style="margin-bottom: 16px;"
   >
-    <mat-icon>add</mat-icon> Dodaj Salę
+    <mat-icon>add</mat-icon>
+    Dodaj Salę
   </button>
 }
 <button
@@ -15,32 +16,51 @@
   color="primary"
   (click)="openUdogodnieniaDialog()"
   style="margin-bottom: 16px;"
-  >
-  <mat-icon>Udogodnienia</mat-icon> Przegladaj Udogodnienia
+>
+  <mat-icon>list</mat-icon>
+  Przegladaj Udogodnienia
 </button>
+
+<div>
+  <mat-form-field appearance="fill" style="width: 200px;">
+    <strong>Sortuj według</strong>
+    <mat-select [value]="sortField" (selectionChange)="onSortFieldChange($event.value)">
+      <mat-option value="nazwa">Nazwa</mat-option>
+      <mat-option value="pojemnosc">Pojemność</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 200px;">
+    <strong>Kierunek</strong>
+    <mat-select [value]="sortOrder" (selectionChange)="onSortOrderChange($event.value)">
+      <mat-option value="asc">Rosnąco</mat-option>
+      <mat-option value="desc">Malejąco</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <table mat-table [dataSource]="sale" class="mat-elevation-z8" style="width: 100%;">
 
   <!-- ID Column -->
   <ng-container matColumnDef="id" @if(authService.isAdminLoggedIn())>
-    <th mat-header-cell *matHeaderCellDef > ID </th>
-    <td mat-cell *matCellDef="let sala"> {{ sala.id }} </td>
+    <th mat-header-cell *matHeaderCellDef appZmienKolor> ID</th>
+    <td mat-cell *matCellDef="let sala"> {{ sala.id }}</td>
   </ng-container>
 
   <!-- Nazwa Column -->
   <ng-container matColumnDef="nazwa">
-    <th mat-header-cell *matHeaderCellDef> Nazwa </th>
-    <td mat-cell *matCellDef="let sala"> {{ sala.nazwa }} </td>
+    <th mat-header-cell *matHeaderCellDef appZmienKolor> Nazwa</th>
+    <td mat-cell *matCellDef="let sala"> {{ sala.nazwa }}</td>
   </ng-container>
 
   <!-- Pojemność Column -->
   <ng-container matColumnDef="pojemnosc">
-    <th mat-header-cell *matHeaderCellDef> Pojemność </th>
-    <td mat-cell *matCellDef="let sala"> {{ sala.pojemnosc }} </td>
+    <th mat-header-cell *matHeaderCellDef appZmienKolor> Pojemność</th>
+    <td mat-cell *matCellDef="let sala"> {{ sala.pojemnosc }}</td>
   </ng-container>
 
   <!-- Udogodnienia Column -->
   <ng-container matColumnDef="udogodnienia">
-    <th mat-header-cell *matHeaderCellDef> Udogodnienia </th>
+    <th mat-header-cell *matHeaderCellDef appZmienKolor> Udogodnienia</th>
     <td mat-cell *matCellDef="let sala">
       {{ getUdogodnieniaNames(sala.udogodnienia) }}
     </td>
@@ -48,8 +68,8 @@
 
 
   <!-- Actions Column -->
-<ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Akcje </th>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef appZmienKolor> Akcje</th>
     <td mat-cell *matCellDef="let sala">
       <button mat-icon-button color="primary" (click)="openEditDialog(sala)" *ngIf="authService.isAdminLoggedIn()">
         <mat-icon>edit</mat-icon>

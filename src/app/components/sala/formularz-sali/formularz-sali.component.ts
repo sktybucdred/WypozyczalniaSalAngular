@@ -34,6 +34,7 @@ export class FormularzSaliComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      id: [this.sala?.id || null],
       nazwa: [this.sala?.nazwa || '', [Validators.required, Validators.minLength(3)]],
       pojemnosc: [this.sala?.pojemnosc || null, [Validators.required, Validators.min(1)]],
       udogodnienia: [this.sala?.udogodnienia.map((u) => u.id) || []],
@@ -49,6 +50,7 @@ export class FormularzSaliComponent implements OnInit {
       udogodnienia: this.udogodnienia.filter((u) =>
         formValue.udogodnienia.includes(u.id)
       ),
+      rezerwacje: [],
     };
     this.submitSala.emit(sala);
   }

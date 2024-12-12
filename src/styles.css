@@ -7,6 +7,9 @@ nav ul {
   display: flex;
   gap: 10px;
 }
+.cdk-overlay-container {
+  z-index: 1000; /* Ensure overlay is above other UI components */
+}
 
 nav ul li {
   display: inline;
@@ -64,6 +67,9 @@ button {
 button:hover {
   background-color: #218838;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

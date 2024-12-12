@@ -27,7 +27,7 @@ import {UdogodnieniaService} from '../../../services/udogodnienia.service';
   styleUrl: './edit-sala-dialog.component.css'
 })
 export class EditSalaDialogComponent implements OnInit {
-  udogodnienia: Udogodnienie[] = [];
+  udogodnienia: Udogodnienie[] = []
   constructor(
     public dialogRef: MatDialogRef<EditSalaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { sala: Sala },
@@ -36,7 +36,6 @@ export class EditSalaDialogComponent implements OnInit {
 
   ngOnInit() {
     this.udogodnieniaService.udogodnienia$.subscribe((udogodnienia) => {
-      console.log('Otrzymane udogodnienia:', udogodnienia);
       this.udogodnienia = udogodnienia;
     });
   }

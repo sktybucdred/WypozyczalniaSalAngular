@@ -1,15 +1,40 @@
-<!-- src/app/components/details-sala-dialog/details-sala-dialog.component.html -->
-
-<h2 mat-dialog-title>{{sala.nazwa}}</h2>
+<h2 mat-dialog-title>{{ sala.nazwa }}</h2>
 <mat-dialog-content>
-  @if(authService.isAdminLoggedIn())
-  {
+  <div *ngIf="authService.isAdminLoggedIn()">
     <p><strong>ID:</strong> {{ sala.id }}</p>
-  }
+  </div>
   <p><strong>Nazwa:</strong> {{ sala.nazwa }}</p>
   <p><strong>Pojemność:</strong> {{ sala.pojemnosc }}</p>
-  <p><strong>Udogodnienia:</strong> {{ sala.udogodnienia.join(', ') }}</p>
+  <p><strong>Udogodnienia:</strong>
+    <span *ngIf="sala.udogodnienia?.length; else brakUdogodnien">
+      <ul>
+        <li *ngFor="let udogodnienie of sala.udogodnienia">
+          {{ udogodnienie.nazwa }}
+        </li>
+      </ul>
+    </span>
+    <ng-template #brakUdogodnien>Brak udogodnień</ng-template>
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Close</button>
+  <button mat-button (click)="onCancel()">Zamknij</button>
+</mat-dialog-actions>
+<h2 mat-dialog-title>Rezerwacje:</h2>
+<mat-dialog-content>
+  <mat-dialog-content>
+    <div *ngIf="rezerwacje?.length; else brakRezerwacji">
+      <ul>
+        <li *ngFor="let rezerwacja of rezerwacje">
+          <strong>{{ rezerwacja.imie }} {{ rezerwacja.nazwisko }}</strong>:
+          {{ rezerwacja.startDateTime | date:'short' }} - {{ rezerwacja.endDateTime | date:'short' }}
+        </li>
+      </ul>
+    </div>
+    <ng-template #brakRezerwacji>
+      <p>Brak rezerwacji dla tej sali.</p>
+    </ng-template>
+  </mat-dialog-content>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="openAddRezerwacjaDialog()">Dodaj Rezerwację</button>
 </mat-dialog-actions>
