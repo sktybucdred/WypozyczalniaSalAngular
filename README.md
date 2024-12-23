@@ -1,3 +1,3 @@
 # WypozyczalniaSal
 
-Wypożyczalnia sal stworzona za pomocą Angular przy wykorzystaniu standalone components.
+Wypożyczalnia sal stworzona za pomocą Angulara przy wykorzystaniu standalone components.
